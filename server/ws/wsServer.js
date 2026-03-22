@@ -3,6 +3,7 @@ import { parse } from 'url'
 import jwt from 'jsonwebtoken'
 import { handleTerminal } from './terminalHandler.js'
 import { handleStats } from './statsHandler.js'
+import { handleDocker } from './dockerHandler.js'
 
 export function setupWebSocketServer(server) {
   const wss = new WebSocketServer({ noServer: true })
@@ -26,7 +27,7 @@ export function setupWebSocketServer(server) {
       return
     }
 
-    if (pathname === '/ws/terminal' || pathname === '/ws/stats') {
+    if (['/ws/terminal', '/ws/stats', '/ws/docker'].includes(pathname)) {
       wss.handleUpgrade(req, socket, head, (ws) => {
         wss.emit('connection', ws, req, pathname)
       })
@@ -43,6 +44,8 @@ export function setupWebSocketServer(server) {
       handleTerminal(ws, derivedKey)
     } else if (pathname === '/ws/stats') {
       handleStats(ws, derivedKey)
+    } else if (pathname === '/ws/docker') {
+      handleDocker(ws, derivedKey)
     }
   })
 

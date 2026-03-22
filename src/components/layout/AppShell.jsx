@@ -4,6 +4,7 @@ import Sidebar from './Sidebar'
 import TabBar from './TabBar'
 import TerminalPane from '../terminal/TerminalPane'
 import StatsPane from '../stats/StatsPane'
+import DockerPane from '../docker/DockerPane'
 import useSessionStore from '../../store/sessionStore'
 
 export default function AppShell() {
@@ -53,7 +54,7 @@ export default function AppShell() {
                     >
                       <TerminalPane tab={tab} />
                     </motion.div>
-                  ) : (
+                  ) : tab.activeView === 'stats' ? (
                     <motion.div
                       key="stats"
                       initial={{ opacity: 0 }}
@@ -63,6 +64,17 @@ export default function AppShell() {
                       className="flex-1 overflow-hidden"
                     >
                       <StatsPane tab={tab} />
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="docker"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.15 }}
+                      className="flex-1 overflow-hidden"
+                    >
+                      <DockerPane tab={tab} />
                     </motion.div>
                   )}
                 </AnimatePresence>

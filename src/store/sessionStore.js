@@ -1,9 +1,9 @@
 import { create } from 'zustand'
 import { v4 as uuidv4 } from 'uuid'
 
-// A "tab" is one active connection to a profile with a terminal + stats view
+// A "tab" is one active connection to a profile with a terminal + stats + docker view
 const useSessionStore = create((set, get) => ({
-  tabs: [],          // [{ id, profileId, label, color, activeView: 'terminal'|'stats', status }]
+  tabs: [],          // [{ id, profileId, label, color, activeView: 'terminal'|'stats'|'docker', status }]
   activeTabId: null,
 
   openTab: (profile) => {
