@@ -19,6 +19,7 @@ const ALLOWED_ORIGINS = [
   'capacitor://localhost',
   'ionic://localhost',
   'http://localhost',
+  'https://localhost',
   'https://sshmanager.zeshanmahmood.com',
 ]
 
