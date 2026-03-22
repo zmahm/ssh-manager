@@ -6,3 +6,7 @@ server/data/
 android/
 ios/
 .DS_Store
+.env.local
+.env.*.local
+package-lock.json
+.claude/
