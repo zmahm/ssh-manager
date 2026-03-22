@@ -2,11 +2,14 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import { createServer } from 'http'
+import { join, dirname } from 'path'
+import { fileURLToPath } from 'url'
 import authRouter from './routes/auth.js'
 import profilesRouter from './routes/profiles.js'
 import { errorHandler } from './middleware/errorHandler.js'
 import { setupWebSocketServer } from './ws/wsServer.js'
 
+const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
 const PORT = process.env.PORT || 3001
 
@@ -16,6 +19,7 @@ const ALLOWED_ORIGINS = [
   'capacitor://localhost',
   'ionic://localhost',
   'http://localhost',
+  'https://sshmanager.zeshanmahmood.com',
 ]
 
 app.use(cors({
@@ -31,6 +35,11 @@ app.use('/api/auth', authRouter)
 app.use('/api/profiles', profilesRouter)
 
 app.get('/api/health', (req, res) => res.json({ ok: true, ts: Date.now() }))
+
+// Serve React frontend static files (production)
+const distPath = join(__dirname, '../dist')
+app.use(express.static(distPath))
+app.get('*', (req, res) => res.sendFile(join(distPath, 'index.html')))
 
 app.use(errorHandler)
 
